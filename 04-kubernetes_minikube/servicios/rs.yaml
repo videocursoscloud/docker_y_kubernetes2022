@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: landingpage
+spec:
+  replicas: 2	
+  selector:
+    matchLabels:
+      app: webserver
+      environment: staging
+  template:
+    metadata:
+      labels:
+        app: webserver
+        environment: staging
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest

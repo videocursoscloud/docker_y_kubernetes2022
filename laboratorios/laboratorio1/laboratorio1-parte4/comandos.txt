@@ -1,0 +1,12 @@
+docker-compose build
+docker-compose pull
+docker-compose up
+
+
+docker build -t videocursoscloud/vcc-python-helloworld:arm64 .
+docker push videocursoscloud/vcc-python-helloworld:arm64 
+
+o 
+
+docker build -t videocursoscloud/vcc-python-helloworld:amd64 .
+docker push videocursoscloud/vcc-python-helloworld:amd64 

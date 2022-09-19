@@ -1,0 +1,1 @@
+https://www.tigera.io/learn/guides/kubernetes-monitoring/#:~:text=In%20Kubernetes%2C%20cluster%20operators%20monitor,node%20from%20joining%20the%20cluster.

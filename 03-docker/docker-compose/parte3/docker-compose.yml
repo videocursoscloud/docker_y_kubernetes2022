@@ -1,0 +1,22 @@
+version: "3.9"  # optional since v1.27.0
+
+services:
+  web:
+    restart: always
+    build: ./dockerfiles/web/
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src/:/usr/share/nginx/html/
+      - logvolume01:/var/log
+    links:
+      - redis
+    environment:
+      - DEBUG=1
+      - NOMBRE=miguel
+
+  redis:
+    image: redis
+
+volumes:
+  logvolume01: {}

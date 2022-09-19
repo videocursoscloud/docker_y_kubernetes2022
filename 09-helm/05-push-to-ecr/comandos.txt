@@ -1,0 +1,9 @@
+https://docs.aws.amazon.com/AmazonECR/latest/userguide/push-oci-artifact.html
+https://aws.amazon.com/blogs/containers/oci-artifact-support-in-amazon-ecr/
+
+
+
+helm create pruebas-helm
+helm package pruebas-helm
+helm push pruebas-helm-0.1.2.tgz oci://620241740192.dkr.ecr.eu-west-2.amazonaws.com/
+helm install prueba oci://620241740192.dkr.ecr.eu-west-2.amazonaws.com/pruebas-helm --version 0.1.2

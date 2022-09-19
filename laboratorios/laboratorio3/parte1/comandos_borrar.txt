@@ -1,0 +1,10 @@
+# Eliminar
+
+kubectl delete -f manifests/
+
+helm -n kube-system uninstall aws-load-balancer-controller external-dns
+eksctl delete iamserviceaccount --cluster=vcc-eksctl --namespace=kube-system --name aws-load-balancer-controller
+eksctl delete iamserviceaccount --cluster=vcc-eksctl --namespace=kube-system --name external-dns
+aws iam delete-policy --policy-arn arn:aws:iam::620241740192:policy/AWSLoadBalancerControllerIAMPolicy
+aws iam delete-policy --policy-arn arn:aws:iam::620241740192:policy/ExternalDNSrControllerIAMPolicy
+eksctl delete cluster -f vcc-eksctl-config.yaml

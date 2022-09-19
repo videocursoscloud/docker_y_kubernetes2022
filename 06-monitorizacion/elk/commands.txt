@@ -1,0 +1,22 @@
+helm repo add elastic https://helm.elastic.co
+
+
+kubectl create ns monitoring
+
+helm install -n monitoring elasticsearch elastic/elasticsearch
+helm install -n monitoring kibana elastic/kibana 
+helm install -n monitoring filebeat elastic/filebeat
+
+
+
+kubectl -n monitoring port-forward svc/kibana-kibana 8080:5601
+
+
+open http://localhost:8080
+
+
+# uninstall
+
+helm -n monitoring uninstall elasticsearch filebeat kibana
+kubectl -n monitoring delete pvc --all
+kubectl -n monitoring delete pv --all

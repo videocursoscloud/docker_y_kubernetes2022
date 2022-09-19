@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx-deployment-stern
+  name: nginx-deployment-stern
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx-deployment-stern
+  template:
+    metadata:
+      labels:
+        app: nginx-deployment-stern
+    spec:
+      containers:
+      - image: nginx:latest
+        name: nginx

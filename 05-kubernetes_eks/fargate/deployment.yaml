@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx-deployment-fargate
+  name: nginx-deployment-fargate
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: nginx-deployment-fargate
+  template:
+    metadata:
+      labels:
+        app: nginx-deployment-fargate
+    spec:
+      containers:
+      - image: nginx:latest
+        name: nginx

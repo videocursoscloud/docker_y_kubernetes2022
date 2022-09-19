@@ -1,0 +1,20 @@
+eksctl create cluster -f vcc-eksctl-config.yaml
+
+aws iam create-policy --policy-name ExternalDNSrControllerIAMPolicy --policy-document file://dns_iam_policy.json
+eksctl utils associate-iam-oidc-provider --cluster vcc-eksctl --approve
+eksctl create iamserviceaccount --name external-dns --namespace kube-system --cluster vcc-eksctl --attach-policy-arn arn:aws:iam::620241740192:policy/ExternalDNSrControllerIAMPolicy --approve
+
+kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.6.1/cert-manager.yaml
+
+
+helm repo add bitnami https://charts.bitnami.com/bitnami
+
+helm install external-dns bitnami/external-dns -n kube-system --set serviceAccount.create=false --set serviceAccount.name=external-dns 
+
+
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+kubectl create ns ingress-nginx
+helm install -n ingress-nginx ingress-nginx ingress-nginx/ingress-nginx 
+
+
+

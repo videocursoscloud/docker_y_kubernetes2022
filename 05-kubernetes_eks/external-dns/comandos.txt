@@ -1,0 +1,30 @@
+#enlaces
+
+https://github.com/kubernetes-sigs/external-dns
+https://aws.amazon.com/premiumsupport/knowledge-center/eks-set-up-externaldns/
+https://artifacthub.io/packages/helm/bitnami/external-dns
+
+
+
+
+aws iam create-policy \
+    --policy-name ExternalDNSrControllerIAMPolicy \
+    --policy-document file://iam_policy.json
+
+
+eksctl utils associate-iam-oidc-provider --cluster vcc-eksctl --approve
+
+eksctl create iamserviceaccount --name external-dns --namespace kube-system --cluster vcc-eksctl --attach-policy-arn arn:aws:iam::620241740192:policy/ExternalDNSrControllerIAMPolicy --approve
+
+
+
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm install external-dns bitnami/external-dns -n kube-system --set serviceAccount.create=false --set serviceAccount.name=external-dns
+
+
+
+#stern 
+stern -n kube-system "aws-load-balancer|external-dns"
+
+
+aws iam delete-policy --policy-arn arn:aws:iam::620241740192:policy/ExternalDNSrControllerIAMPolicy

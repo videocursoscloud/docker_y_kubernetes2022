@@ -1,0 +1,21 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: vcc-eksctl-fargate
+  region: eu-west-2
+
+
+fargateProfiles:
+  - name: fp-default
+    selectors:
+      - namespace: default
+      - namespace: kube-system
+
+  - name: fp-dev
+    selectors:
+      - namespace: dev
+        labels:
+          env: dev
+          checks: passed
+

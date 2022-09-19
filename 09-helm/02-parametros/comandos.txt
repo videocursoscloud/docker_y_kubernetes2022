@@ -1,0 +1,14 @@
+helm install nginx-2replicas bitnami/nginx --set replicaCount=2
+helm install nginx-np bitnami/nginx -f values.yaml
+
+
+helm upgrade nginx-np bitnami/nginx -f values.yaml 
+
+
+
+
+helm upgrade nginx-np bitnami/nginx -f values.yaml 
+
+
+helm install nginx-version bitnami/nginx --version 13.1.2
+helm upgrade nginx-version bitnami/nginx --version 13.1.3 

@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: hello-world-deadline
+spec:
+  parallelism: 4
+  completions: 2
+  activeDeadlineSeconds: 20
+  template:
+    metadata:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: test
+        command: [ "/bin/bash", "-c" ]
+        args: [ "i=0 \n while [ $i -lt 100 ]\ndo \n /bin/echo hola en linea $i\n let i=$i+1 \n sleep 1; done" ]
+        image: ubuntu:latest

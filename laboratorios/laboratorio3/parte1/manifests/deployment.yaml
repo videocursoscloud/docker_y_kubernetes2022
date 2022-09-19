@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: vcc-python-helloworld
+  name: vcc-python-helloworld
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: vcc-python-helloworld
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: vcc-python-helloworld
+    spec:
+      containers:
+      - image: videocursoscloud/vcc-python-helloworld:amd64
+        name: vcc-python-helloworld
+        ports:
+        - containerPort: 5000

@@ -1,0 +1,17 @@
+eksctl create cluster -f vcc-eksctl-config.yaml
+
+aws iam create-policy --policy-name AWSLoadBalancerControllerIAMPolicy --policy-document file://lb_iam_policy.json
+aws iam create-policy --policy-name ExternalDNSrControllerIAMPolicy --policy-document file://dns_iam_policy.json
+eksctl utils associate-iam-oidc-provider --cluster vcc-eksctl --approve
+eksctl create iamserviceaccount  --cluster=vcc-eksctl --namespace=kube-system --name=aws-load-balancer-controller --role-name "AmazonEKSLoadBalancerControllerRole" --attach-policy-arn=arn:aws:iam::620241740192:policy/AWSLoadBalancerControllerIAMPolicy --approve
+eksctl create iamserviceaccount --name external-dns --namespace kube-system --cluster vcc-eksctl --attach-policy-arn arn:aws:iam::620241740192:policy/ExternalDNSrControllerIAMPolicy --approve
+
+
+
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo add eks https://aws.github.io/eks-charts
+
+helm install external-dns bitnami/external-dns -n kube-system --set serviceAccount.create=false --set serviceAccount.name=external-dns 
+helm install aws-load-balancer-controller eks/aws-load-balancer-controller --set clusterName=vcc-eksctl -n kube-system --set serviceAccount.create=false --set serviceAccount.name=aws-load-balancer-controller
+
+

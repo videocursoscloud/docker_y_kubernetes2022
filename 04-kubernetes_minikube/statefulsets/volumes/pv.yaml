@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: www-web-volumes-0
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 2Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data/www-0"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: www-web-volumes-1
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 2Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data/www-1"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: www-web-volumes-2
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 2Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data/www-2"
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: www-web-volumes-3
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 2Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data/www-3"
+

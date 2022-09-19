@@ -1,0 +1,4 @@
+https://eksctl.io/usage/fargate-support/
+https://docs.aws.amazon.com/eks/latest/userguide/fargate.html
+
+helm install aws-load-balancer-controller eks/aws-load-balancer-controller --set clusterName=vcc-eksctl-fargate -n kube-system --set serviceAccount.create=false --set serviceAccount.name=aws-load-balancer-controller --set vpcId=vpc-0429801a299dae637

@@ -1,0 +1,22 @@
+helm create vcc-helloworld-python
+
+# Editar values.yaml
+
+# Editar Chart.yaml
+
+helm package vcc-helloworld-python/
+
+aws ecr create-repository --repository-name vcc-helloworld-python
+
+
+aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin 620241740192.dkr.ecr.eu-west-2.amazonaws.com
+
+helm push vcc-helloworld-python-0.1.0.tgz oci://620241740192.dkr.ecr.eu-west-2.amazonaws.com
+
+
+helm install vcc-helloworld-python oci://620241740192.dkr.ecr.eu-west-2.amazonaws.com/vcc-helloworld-python --version 0.1.0
+
+# delete
+
+# aws ecr delete-repository --repository-name vcc-helloworld-python
+

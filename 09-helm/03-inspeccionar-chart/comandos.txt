@@ -1,0 +1,2 @@
+helm fetch bitnami/nginx 
+helm fetch bitnami/nginx --untar

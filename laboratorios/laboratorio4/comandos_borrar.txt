@@ -1,0 +1,7 @@
+# Eliminar
+
+kubectl delete -f manifests/
+
+eksctl delete iamserviceaccount --cluster=vcc-eksctl --namespace=kube-system --name external-dns
+aws iam delete-policy --policy-arn arn:aws:iam::620241740192:policy/ExternalDNSrControllerIAMPolicy
+eksctl delete cluster -f vcc-eksctl-config.yaml

@@ -1,0 +1,19 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: vcc-eksctl
+  region: eu-west-2
+
+managedNodeGroups:
+  - name: ng-1-asg
+    instanceType: t3.small
+    minSize: 1
+    maxSize: 5
+    desiredCapacity: 1
+    volumeSize: 20
+    ssh:
+      allow: true # will use ~/.ssh/id_rsa.pub as the default ssh key
+    iam:
+      withAddonPolicies:
+        autoScaler: true

@@ -1,0 +1,45 @@
+https://kubernetes.io/blog/2019/01/15/container-storage-interface-ga/
+https://aws.amazon.com/premiumsupport/knowledge-center/eks-persistent-storage/
+
+
+
+
+curl -o example-iam-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-ebs-csi-driver/v0.9.0/docs/example-iam-policy.json
+
+
+
+aws iam create-policy --policy-name AmazonEKS_EBS_CSI_Driver_Policy --policy-document file://example-iam-policy.json
+
+
+aws iam create-role \
+  --role-name AmazonEKS_EBS_CSI_DriverRole \
+  --assume-role-policy-document file://"trust-policy.json"
+
+
+# activar autenticacion oidc con el cluster
+eksctl utils associate-iam-oidc-provider --cluster vcc-eksctl --approve
+
+
+eksctl create iamserviceaccount \
+  --cluster=vcc-eksctl \
+  --namespace=kube-system \
+  --name=ebs-csi-controller-sa \
+  --role-name "EKSEBSCSIDriverRole" \
+  --attach-policy-arn=arn:aws:iam::620241740192:policy/AmazonEKS_EBS_CSI_Driver_Policy \
+  --approve
+
+
+
+
+kubectl apply -k "github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable/?ref=master"
+
+
+kubectl annotate serviceaccount ebs-csi-controller-sa \
+  -n kube-system \
+  eks.amazonaws.com/role-arn=arn:aws:iam::620241740192:role/EKSEBSCSIDriverRole
+
+kubectl delete pods \
+  -n kube-system \
+  -l=app=ebs-csi-controller
+
+

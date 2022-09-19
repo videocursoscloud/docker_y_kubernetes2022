@@ -1,0 +1,15 @@
+to do: fijar numero maximo de instancias
+
+https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md
+https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler
+https://docs.aws.amazon.com/eks/latest/userguide/autoscaling.html
+
+
+eksctl create cluster -f vcc-eksctl-config-asg.yaml
+
+
+curl -o cluster-autoscaler-autodiscover.yaml https://raw.githubusercontent.com/kubernetes/autoscaler/master/cluster-autoscaler/cloudprovider/aws/examples/cluster-autoscaler-autodiscover.yaml
+
+editar y reemplazar <YOUR CLUSTER NAME> por el nombre del cluster
+
+kubectl apply -f cluster-autoscaler-autodiscover.yaml

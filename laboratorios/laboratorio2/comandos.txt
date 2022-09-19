@@ -1,0 +1,16 @@
+minikube start
+
+kubectl create ns ingress-nginx
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm install -n ingress-nginx ingress-nginx ingress-nginx/ingress-nginx --set controller.service.type=NodePort
+
+kubectl --dry-run=client -o yaml  create deployment --image videocursoscloud/vcc-python-helloworld --replicas 2 vcc-python-helloworld --port 5000 > deployment.yaml
+# editar
+kubectl apply -f deployment.yaml
+
+kubectl --dry-run=client -o yaml expose deployment vcc-python-helloworld --type NodePort  > svc.yaml 
+# editar
+kubectl apply -f svc.yaml
+
+
+minikube delete

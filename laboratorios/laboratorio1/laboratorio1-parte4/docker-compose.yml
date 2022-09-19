@@ -1,0 +1,38 @@
+version: "3.3"
+
+services:
+  web:
+    restart: always
+    environment:
+      DEBUG: "True"
+    build: 
+      context: .
+      dockerfile: Dockerfile-local
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./src/:/src/
+      - logvolume01:/var/log
+  db:
+    #image: mysql:5.7
+    image: arm64v8/mysql:latest
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'db'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - db:/var/lib/mysql
+  adminer:
+    restart: always
+    image: adminer
+    ports:
+      - "8080:8080"
+volumes:
+  logvolume01: {}
+  db: {}

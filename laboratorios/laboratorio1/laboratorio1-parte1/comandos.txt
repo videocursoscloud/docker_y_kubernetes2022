@@ -1,0 +1,2 @@
+docker build -t vcc-helloworld-python .
+docker run -P --rm vcc-helloworld-python:latest

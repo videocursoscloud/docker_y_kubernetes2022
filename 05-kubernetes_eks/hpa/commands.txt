@@ -1,0 +1,22 @@
+https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/
+https://docs.aws.amazon.com/eks/latest/userguide/metrics-server.html
+https://docs.aws.amazon.com/eks/latest/userguide/horizontal-pod-autoscaler.html
+https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
+
+# Install metrics server
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+kubectl get deployment metrics-server -n kube-system
+
+kubectl apply -f deployment.yaml
+kubectl apply -f svc.yaml
+kubectl apply -f hpa.yaml
+
+kubectl run load-generator --rm -it  --image=busybox --restart=Never -- /bin/sh -c "while sleep 0.5; do wget -q -O- http://php-apache; done"
+
+
+# desescalar sin esperar 5 minutos
+kubectl delete -f hpa.yaml
+kubectl scale deployment php-apache  --replicas 1
+kubectl apply -f hpa.yaml
+
+

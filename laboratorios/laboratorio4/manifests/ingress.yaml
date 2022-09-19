@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: vcc-python-helloworld
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - lab4.vcc-test.link
+    secretName: letsencrypt
+  rules:
+  - host: lab4.vcc-test.link
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: vcc-python-helloworld
+            port:
+              number: 5000
