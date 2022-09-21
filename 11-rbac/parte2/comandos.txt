@@ -1,0 +1,11 @@
+eksctl utils associate-iam-oidc-provider --cluster vcc-eksctl --approve
+
+
+eksctl create iamserviceaccount \
+    --name s3-read-only \
+    --namespace default \
+    --cluster vcc-eksctl \
+    --attach-policy-arn arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess \
+    --approve \
+    --override-existing-serviceaccounts
+

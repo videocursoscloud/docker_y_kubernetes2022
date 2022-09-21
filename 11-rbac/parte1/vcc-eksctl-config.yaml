@@ -7,8 +7,8 @@ metadata:
 
 managedNodeGroups:
   - name: nodegroup1
-    instanceType: t3.large
-    desiredCapacity: 3
+    instanceType: t3.small
+    desiredCapacity: 1
     volumeSize: 20
     ssh:
       allow: true # will use ~/.ssh/id_rsa.pub as the default ssh key

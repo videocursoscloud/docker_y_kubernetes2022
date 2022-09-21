@@ -1,0 +1,38 @@
+https://kubernetes.io/docs/reference/access-authn-authz/rbac/
+https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html
+
+
+kubectl apply -f manifests/
+
+aws iam create-user --user-name rbac-user
+aws iam create-access-key --user-name rbac-user | tee /tmp/create_output.json
+
+source source.rc
+
+aws sts get-caller-identity
+
+
+kubectl get configmap -n kube-system aws-auth -o yaml | grep -v "creationTimestamp\|resourceVersion\|selfLink\|uid" | sed '/^  annotations:/,+2 d' > aws-auth.yaml
+
+export ACCOUNT_ID=$(aws sts get-caller-identity|jq .Account -r)
+cat << EoF >> aws-auth.yaml
+data:
+  mapUsers: |
+    - userarn: arn:aws:iam::${ACCOUNT_ID}:user/rbac-user
+      username: rbac-user
+EoF
+
+
+kubectl apply -f aws-auth.yaml
+
+
+# testear
+AWS_SECRET_ACCESS_KEY=$(jq -r .AccessKey.SecretAccessKey /tmp/create_output.json) AWS_ACCESS_KEY_ID=$(jq -r .AccessKey.AccessKeyId /tmp/create_output.json) kubectl get all -A
+
+
+# eliminar 
+#con usuario admin : 
+aws iam delete-access-key --user-name rbac-user --access-key-id $(cat /tmp/create_output.json |jq .AccessKey.AccessKeyId -r)
+aws iam delete-user --user-name rbac-user
+
+
