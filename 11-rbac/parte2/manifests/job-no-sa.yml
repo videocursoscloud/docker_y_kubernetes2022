@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: s3-test-no-sa
+spec:
+  template:
+    metadata:
+      labels:
+        app: s3-test-no-sa
+    spec:
+      containers:
+      - name: awscli
+        image: amazon/aws-cli:latest
+        args: ["s3", "ls"]
+      restartPolicy: Never
