@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: httpd-deployment
+    env: staging
+  name: httpd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: httpd-deployment
+      env: staging
+  template:
+    metadata:
+      labels:
+        app: httpd-deployment
+        env: staging
+    spec:
+      containers:
+      - image: httpd:latest
+        name: httpd

@@ -1,0 +1,30 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+ - deployment.yaml
+
+commonLabels:
+  app: httpd-deployment
+  env: staging
+
+images:
+- name: nginx
+  newName: httpd
+  newTag: latest
+
+
+
+patches:
+- target:
+    kind: Deployment
+  patch: |-
+    - op: replace
+      path: /spec/template/spec/containers/0/name
+      value: httpd
+- target:
+    kind: Deployment
+  patch: |-
+    - op: replace
+      path: /metadata/name
+      value: httpd
