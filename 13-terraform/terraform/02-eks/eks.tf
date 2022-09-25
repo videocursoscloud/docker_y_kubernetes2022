@@ -2,14 +2,14 @@ module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "~> 18.0"
 
-  cluster_name    = local.resource_names
+  cluster_name    = "vcc-eks-tf"
   cluster_version = "1.22"
 
   cluster_endpoint_private_access = true
   cluster_endpoint_public_access  = true
 
-  vpc_id     = module.vpc.vpc_id
-  subnet_ids = module.vpc.private_subnets
+  vpc_id     = data.terraform_remote_state.vpc.outputs.vpc_id
+  subnet_ids = data.terraform_remote_state.vpc.outputs.private_subnets
 
   node_security_group_additional_rules = {
     ingress_allow_access_from_control_plane = {
@@ -29,13 +29,9 @@ module "eks" {
         desired_size = 1
 
         instance_types = ["t3.large"]
-        
       }
     }
-  tags = {
-    Environment = "staging"
-    Terraform   = "true"
-  }
+
 
   fargate_profiles = {
     fg-developers = {
@@ -48,5 +44,9 @@ module "eks" {
     }
   }
 
+  tags = {
+    Environment = "staging"
+    Terraform   = "true"
+  }
 
 }
