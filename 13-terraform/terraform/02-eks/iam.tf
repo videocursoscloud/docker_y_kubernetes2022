@@ -1,5 +1,5 @@
 resource "aws_iam_policy" "load_balancer_controller" {
-  name        = "AmazonEKSLoadBalancerControllerRoleTF"
+  name        = "AmazonEKSLoadBalancerControllerPolicyTF"
   path        = "/"
   description = "Policy for load balancer controller on EKS"
   policy = file("iam_policy.json")

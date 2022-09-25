@@ -1,7 +1,7 @@
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
-  name = local.resource_names
+  name = "vcc-eks-tf"
   cidr = "10.0.0.0/16"
 
   azs             = ["eu-west-2a", "eu-west-2b", "eu-west-2c"]
@@ -18,11 +18,11 @@ module "vpc" {
 
   public_subnet_tags = {
     "kubernetes.io/role/elb" = "1"
-    "kubernetes.io/cluster/${local.resource_names}" = "shared"
+    "kubernetes.io/cluster/vcc-eks-tf" = "shared"
   }
 
   private_subnet_tags = {
     "kubernetes.io/role/internal-elb" = "1"
-    "kubernetes.io/cluster/${local.resource_names}" = "shared"
+    "kubernetes.io/cluster/vcc-eks-tf" = "shared"
   }
 }

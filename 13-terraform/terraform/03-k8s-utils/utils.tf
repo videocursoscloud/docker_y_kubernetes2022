@@ -17,7 +17,7 @@ resource "helm_release" "load_balance_ingress_controller" {
   repository       = "https://aws.github.io/eks-charts"
   chart            = "aws-load-balancer-controller"
   namespace        = "kube-system"
-  create_namespace = true
+
   set {
     name  = "clusterName"
     value = data.terraform_remote_state.eks.outputs.cluster_id
@@ -32,7 +32,7 @@ resource "helm_release" "load_balance_ingress_controller" {
   }
   set {
     name  = "vpcId"
-    value = data.terraform_remote_state.eks.outputs.vpc_id
+    value = data.terraform_remote_state.vpc.outputs.vpc_id
   }
 
 }
