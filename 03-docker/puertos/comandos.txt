@@ -1,0 +1,33 @@
+# creamos la imagen primero
+docker build -t helloworld:latest .
+
+# creamos un contenedor publicando el puerto 80
+
+docker create -p 8080:80 --name webserver helloworld:latest
+
+# iniciamos e inspeccionamos
+docker start webserver
+docker inspect webserver
+
+# comprobar la pagina web
+curl localhost:8080
+
+
+# eliminamos el contenedor
+docker rm webserver -f
+
+# levantamos el contenedor exponiendo el puerto del contenedor en un puerto efimero de nuestra maquina
+docker create -P --name webserver helloworld:latest
+docker start webserver
+docker ps
+
+# comprobamos
+curl localhost:<INTRODUCIR PUERTO EFIMERO>
+ejemplo:
+
+curl localhost:49153
+
+# eliminamos todo
+
+docker rm -f webserver
+
